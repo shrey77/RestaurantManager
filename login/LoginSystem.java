@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 
-import managaer.RestaurantManager;
+import managaer.MainMenu;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -63,7 +63,6 @@ public class LoginSystem {
 		frame = new JFrame();
 		frame.getContentPane().setForeground(Color.RED);
 		frame.setBounds(200, 200, 600, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel loginLabel = new JLabel("Restaurant Manager Login");
@@ -103,15 +102,17 @@ public class LoginSystem {
 				ResultSet loginQuery;
 				String username = usernameInput.getText();
 				String password = passwordInput.getText();
-				System.out.println("Made it in LoginBtn");
+				String query = "Select * from login where username='"+username+"' AND password='"+password+"'";
+				
 				try {
-					loginQuery = dataObject.queryData("Select * from login where username='"+username+"' AND password='"+password+"'");
+					loginQuery = dataObject.queryData(query);
 					if(loginQuery.next()) {
 						usernameInput.setText(null);
 						passwordInput.setText(null);
 						
-						RestaurantManager manager = new RestaurantManager();
-						RestaurantManager.main(null);
+						MainMenu.main(null);
+						
+						frame.setVisible(false);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Invalid Login");
