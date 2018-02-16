@@ -52,13 +52,7 @@ public class MainMenu {
 		JButton viewOrder = new JButton("View/Delete Orders");
 		viewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					OrderManager manager = new OrderManager();
-					OrderManager.main(null);
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 			}
 		});
 		viewOrder.setBounds(250, 135, 307, 46);
@@ -67,6 +61,7 @@ public class MainMenu {
 		JButton addOrderBtn = new JButton("Add Order");
 		addOrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OrderManager.main(null);
 			}
 		});
 		addOrderBtn.setBounds(250, 242, 307, 46);

@@ -294,6 +294,7 @@ public class OrderManager {
 		panel.add(orderNameLbl);
 		
 		orderNameField = new JTextField("");
+		orderNameField.setFont(new Font("Serif", Font.PLAIN, 40));
 		orderNameField.setBounds(403, 13, 367, 57);
 		panel.add(orderNameField);
 		orderNameField.setColumns(10);
