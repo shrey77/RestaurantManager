@@ -93,14 +93,12 @@ public class Registration {
 				String username = usernameTxtField.getText();
 				String password = passwordTxtField.getText();
 				String email = emailTxtField.getText();
-				String pattern = "yyyy-MM-dd";
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				String today = simpleDateFormat.format(new Date());
 				if(username != "" && password != "" && email != "" && email.matches("\\S+@\\S+")) {
 					try {
 						String query = "insert into login(username,password,email,creationDate) VALUES ('" + username + "','" + password + "','" + email
 								+ "','" + today + "')";
-						System.out.println(query);
 						int registerQuery = dataObject.updateData(query);
 						if(registerQuery > 0) {
 							usernameTxtField.setText(null);

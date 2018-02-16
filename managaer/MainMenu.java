@@ -49,23 +49,30 @@ public class MainMenu {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton tableBtn = new JButton("Tables");
-		tableBtn.addActionListener(new ActionListener() {
+		JButton viewOrder = new JButton("View/Delete Orders");
+		viewOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					OrderManager manager = new OrderManager();
+					OrderManager.main(null);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		viewOrder.setBounds(250, 135, 307, 46);
+		frame.getContentPane().add(viewOrder);
+		
+		JButton addOrderBtn = new JButton("Add Order");
+		addOrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		tableBtn.setBounds(250, 135, 307, 46);
-		frame.getContentPane().add(tableBtn);
+		addOrderBtn.setBounds(250, 242, 307, 46);
+		frame.getContentPane().add(addOrderBtn);
 		
-		JButton button = new JButton("New button");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button.setBounds(250, 242, 307, 46);
-		frame.getContentPane().add(button);
-		
-		JButton button_1 = new JButton("New button");
+		JButton button_1 = new JButton("View/Delete Users");
 		button_1.setBounds(250, 343, 307, 46);
 		frame.getContentPane().add(button_1);
 		
@@ -80,7 +87,7 @@ public class MainMenu {
 		
 		JLabel restaurantManagerLabel = new JLabel("Restaurant Manager");
 		restaurantManagerLabel.setFont(new Font("Serif", Font.BOLD, 36));
-		restaurantManagerLabel.setBounds(270, 55, 56, 16);
+		restaurantManagerLabel.setBounds(250, 54, 333, 46);
 		frame.getContentPane().add(restaurantManagerLabel);
 	}
 }
