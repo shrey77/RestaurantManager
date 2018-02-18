@@ -66,6 +66,7 @@ public class OrderManager {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
 		frame.setBounds(200, 200, 800, 600);
+		frame.getContentPane().setLayout(null);
 		
 		DatabaseConnection dataObject = new DatabaseConnection();
 		String[] menuItems = {"Pasta", "Lasagna", "Breadsticks", "Soup", "Salad"};
@@ -77,7 +78,6 @@ public class OrderManager {
 		Object[] columnNames = {"Item", "Quantity", "Price", "Item Total"};
 		DefaultTableModel model = new DefaultTableModel();
 		model.setColumnIdentifiers(columnNames);
-		frame.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(408, 164, 374, 320);
@@ -253,11 +253,9 @@ public class OrderManager {
 		JButton deleteItemsBtn = new JButton("Delete");
 		deleteItemsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int rowToDelete = orderTable.getSelectedRow();
-				
-				if(rowToDelete >= 0) {
-					model.removeRow(rowToDelete);
+				int[] rowToDelete = orderTable.getSelectedRows();
+				for(int i = 0; i < rowToDelete.length; i++) {
+					model.removeRow(rowToDelete[rowToDelete.length - 1 - i]);
 				}
 			}
 		});
@@ -308,7 +306,6 @@ public class OrderManager {
 				}
 				int pasta = 0, lasagna = 0, bread = 0, soup = 0, salad = 0;
 				int rowCount = orderTable.getRowCount();
-				orderTotal = 0;
 				for(int i = 0; i < rowCount; i++) {
 					if(model.getValueAt(i, 0) == "Pasta") {
 						pasta = (int) model.getValueAt(i, 1);
@@ -325,7 +322,6 @@ public class OrderManager {
 					else if(model.getValueAt(i, 0) == "Salad") {
 						salad = (int) model.getValueAt(i, 1);
 					}
-					
 				}
 				
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -346,6 +342,8 @@ public class OrderManager {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} finally {
+					dataObject.close();
 				}
 			}
 		});

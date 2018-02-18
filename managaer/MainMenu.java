@@ -52,7 +52,7 @@ public class MainMenu {
 		JButton viewOrder = new JButton("View/Delete Orders");
 		viewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				CurrentOrder.main(null);
 			}
 		});
 		viewOrder.setBounds(250, 135, 307, 46);

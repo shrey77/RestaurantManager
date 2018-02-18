@@ -12,7 +12,7 @@ public class DatabaseConnection {
 	private static String driverName = "com.mysql.jdbc.Driver";
 	private static String urlcon = "jdbc:mysql://localhost:3306/java1?useSSL=false";
 	private static String username = "root";
-	private static String password = "michigan77";
+	private static String password = "root";
 	
 	public DatabaseConnection() throws ClassNotFoundException {
 		Class.forName(driverName);
@@ -36,5 +36,14 @@ public class DatabaseConnection {
 	public int updateData(String query) throws SQLException {
 		int result = stm.executeUpdate(query);
 		return result;
+	}
+	
+	public void close() {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
