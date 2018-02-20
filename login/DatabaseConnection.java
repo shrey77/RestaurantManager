@@ -12,7 +12,6 @@ public class DatabaseConnection {
 	private static String driverName = "com.mysql.jdbc.Driver";
 	private static String urlcon = "jdbc:mysql://localhost:3306/java1?useSSL=false";
 	private static String username = "root";
-	private static String password = "root";
 	
 	public DatabaseConnection() throws ClassNotFoundException {
 		Class.forName(driverName);
@@ -20,7 +19,6 @@ public class DatabaseConnection {
 		try {
 			con = DriverManager.getConnection(urlcon, username, password);
 			stm = con.createStatement();
-			System.out.println("Database Connection Successful");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -29,7 +27,6 @@ public class DatabaseConnection {
 	
 	public ResultSet queryData(String query) throws SQLException {
 		ResultSet result = stm.executeQuery(query);
-		System.out.println("Result is: " + result);
 		return result;
 	}
 	
@@ -45,5 +42,10 @@ public class DatabaseConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+
+	public boolean isClosed() throws SQLException {
+		return con.isClosed();
 	}
 }

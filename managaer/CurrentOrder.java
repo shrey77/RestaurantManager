@@ -82,10 +82,10 @@ public class CurrentOrder {
 		orderTable.setRowHeight(30);
 		scrollPane.setViewportView(orderTable);
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String today = simpleDateFormat.format(new Date());
-		String orderQuery = "select * from java1.order WHERE orderDate='" + today + "'";
 		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String today = simpleDateFormat.format(new Date());
+			String orderQuery = "select * from java1.order WHERE orderDate='" + today + "'";
 			ResultSet result = dataObject.queryData(orderQuery);
 			while(result.next()) {
 				String orderNum = result.getString("orderNum");
@@ -99,12 +99,11 @@ public class CurrentOrder {
 				String orderDate = result.getString("orderDate");
 				model.addRow(new Object[]{orderNum, orderName, orderTotal, pasta, lasagna, bread, soup, salad, orderDate});
 			}
+			result.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			dataObject.close();
-		}
+		} 
 		JLabel viewOrderLbl = new JLabel("View/Delete Orders");
 		viewOrderLbl.setBounds(298, 0, 344, 66);
 		viewOrderLbl.setFont(new Font("Serif", Font.BOLD, 40));
@@ -114,8 +113,8 @@ public class CurrentOrder {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				model.setRowCount(0);
-				String orderQuery = "select * from java1.order";
 				try {
+					String orderQuery = "select * from java1.order";
 					ResultSet result = dataObject.queryData(orderQuery);
 					while(result.next()) {
 						String orderNum = result.getString("orderNum");
@@ -129,11 +128,10 @@ public class CurrentOrder {
 						String orderDate = result.getString("orderDate");
 						model.addRow(new Object[]{orderNum, orderName, orderTotal, pasta, lasagna, bread, soup, salad, orderDate});
 					}
+					result.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} finally {
-					dataObject.close();
 				}
 			}
 		});
@@ -144,10 +142,10 @@ public class CurrentOrder {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.setRowCount(0);
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String today = simpleDateFormat.format(new Date());
-				String orderQuery = "select * from java1.order WHERE orderDate='" + today + "'";
 				try {
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String today = simpleDateFormat.format(new Date());
+					String orderQuery = "select * from java1.order WHERE orderDate='" + today + "'";
 					ResultSet result = dataObject.queryData(orderQuery);
 					while(result.next()) {
 						String orderNum = result.getString("orderNum");
@@ -161,11 +159,10 @@ public class CurrentOrder {
 						String orderDate = result.getString("orderDate");
 						model.addRow(new Object[]{orderNum, orderName, orderTotal, pasta, lasagna, bread, soup, salad, orderDate});
 					}
+					result.close();
 				} catch (SQLException exception) {
 					// TODO Auto-generated catch block
 					exception.printStackTrace();
-				} finally {
-					dataObject.close();
 				}
 			}
 		});
@@ -180,7 +177,7 @@ public class CurrentOrder {
 				for(int i = 0; i < rowToDelete.length; i++) {
 					try {
 						int orderN = (int) model.getValueAt(rowToDelete[rowToDelete.length - 1 - i], 0);
-						String query = "delete * from java1.order where orderNum=" + orderN;
+						String query = "delete from java1.order where orderNum=" + orderN;
 						int deleteQuery = dataObject.updateData(query);
 						if(deleteQuery > 0) {
 							model.removeRow(rowToDelete[rowToDelete.length - 1 - i]);
@@ -188,13 +185,18 @@ public class CurrentOrder {
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} finally {
-						dataObject.close();
 					}
 				}
 			}
 		});
 		deleteBtn.setBounds(700, 488, 225, 50);
 		frame.getContentPane().add(deleteBtn);
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        dataObject.close();
+		    }
+		});
 	}
 }

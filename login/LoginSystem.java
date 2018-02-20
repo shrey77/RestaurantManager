@@ -25,6 +25,7 @@ public class LoginSystem {
 	private JFrame frame;
 	private JTextField usernameInput;
 	private JPasswordField passwordInput;
+	private DatabaseConnection dataObject = null;
 
 	/**
 	 * Launch the application.
@@ -58,7 +59,7 @@ public class LoginSystem {
 	 */
 	private void initialize() throws ClassNotFoundException, SQLException {
 		
-		DatabaseConnection dataObject = new DatabaseConnection();
+		dataObject = new DatabaseConnection();
 		
 		frame = new JFrame();
 		frame.getContentPane().setForeground(Color.RED);
@@ -99,12 +100,15 @@ public class LoginSystem {
 		JButton loginBtn = new JButton("Login");
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ResultSet loginQuery;
-				String username = usernameInput.getText();
-				String password = passwordInput.getText();
-				String query = "Select * from login where username='"+username+"' AND password='"+password+"'";
-				
 				try {
+					boolean closed = dataObject.isClosed();
+					if(closed) {
+						dataObject = new DatabaseConnection();
+					}
+					ResultSet loginQuery;
+					String username = usernameInput.getText();
+					String password = passwordInput.getText();
+					String query = "Select * from login where username='"+username+"' AND password='"+password+"'";
 					loginQuery = dataObject.queryData(query);
 					if(loginQuery.next()) {
 						usernameInput.setText(null);
@@ -117,8 +121,11 @@ public class LoginSystem {
 					else {
 						JOptionPane.showMessageDialog(null, "Invalid Login");
 					}
-				} catch (SQLException e) {
+					loginQuery.close();
+				} catch (SQLException | ClassNotFoundException e) {
 					System.out.println(e.getMessage());
+				} finally {
+					dataObject.close();
 				}
 			}
 		});
@@ -137,6 +144,7 @@ public class LoginSystem {
 		JButton forgetPassBtn = new JButton("Forgot Password");
 		forgetPassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Forgot Password Not Implemented.");
 			}
 		});
 		forgetPassBtn.setBounds(330, 300, 150, 25);
@@ -145,6 +153,7 @@ public class LoginSystem {
 		JButton newUserBtn = new JButton("Create New Account");
 		newUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Registration.main(null);
 			}
 		});
 		newUserBtn.setBounds(130, 300, 150, 25);
